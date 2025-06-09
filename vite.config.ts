@@ -14,6 +14,6 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  publicDir: "contents",
+  // Use default public directory for static assets like vite.svg
   assetsInclude: ["**/*.md", "**/*.json"],
 });
