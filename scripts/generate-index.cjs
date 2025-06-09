@@ -12,12 +12,12 @@ function generateIndex() {
     return;
   }
 
-  // Check if index.json already exists
+  // Always generate a new index.json, so don't check for existence
   const indexPath = path.join(contentsDir, "index.json");
-  if (fs.existsSync(indexPath)) {
-    console.log("index.json already exists, skipping auto-generation");
-    return;
-  }
+  // if (fs.existsSync(indexPath)) {
+  //   console.log("index.json already exists, skipping auto-generation");
+  //   return;
+  // }
 
   // Read all markdown files
   const files = fs

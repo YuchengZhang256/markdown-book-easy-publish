@@ -14,6 +14,6 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  publicDir: false,
+  publicDir: "contents",
   assetsInclude: ["**/*.md", "**/*.json"],
 });

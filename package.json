@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run prebuild && tsc -b && vite build && npm run postbuild",
+    "build": "npm run prebuild && tsc -b && vite build",
     "preview": "vite preview",
     "prebuild": "node scripts/generate-index.cjs",
     "postbuild": "cp -r contents dist/",
