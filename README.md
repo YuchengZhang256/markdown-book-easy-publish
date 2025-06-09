@@ -17,6 +17,8 @@ A minimal, beautiful, and powerful tool for publishing books from Markdown files
 
 ### ⚡ Super Simple Way (Recommended)
 
+![How to Use](img/how_to_use.png)
+
 1. **Fork this repository** to your GitHub account
 2. **Enable GitHub Pages** in repository settings:
    - Go to Settings → Pages
