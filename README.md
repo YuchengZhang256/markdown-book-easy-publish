@@ -33,10 +33,20 @@ A minimal, beautiful, and powerful tool for publishing books from Markdown files
 
 **That's it!** No configuration files needed. The system will:
 
-- ✅ Automatically detect all your markdown files
+- ✅ Automatically detect **ANY** markdown files (custom filenames supported!)
+- ✅ Smart sorting with number recognition and Chinese support
 - ✅ Extract chapter titles from your `# headings`
-- ✅ Create a beautiful table of contents
+- ✅ Generate table of contents automatically during build
 - ✅ Deploy to GitHub Pages automatically
+
+### 📁 Supported Filenames
+
+The auto-detection works with **ANY** markdown filename:
+
+- ✅ `chapter1.md`, `ch1.md`, `01.md` (numbered)
+- ✅ `我的故事.md`, `第一章.md` (Chinese)
+- ✅ `love-story.md`, `final-battle.md` (custom names)
+- ✅ `introduction.md`, `epilogue.md` (special chapters)
 
 ### 📝 Optional Configuration
 
