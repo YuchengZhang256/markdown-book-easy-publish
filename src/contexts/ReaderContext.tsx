@@ -1,9 +1,10 @@
-import React, {
+import {
   createContext,
   useContext,
   useReducer,
   useEffect,
   useCallback,
+  ReactNode,
 } from "react";
 import { ReaderSettings, ReadingProgress } from "@/types";
 
@@ -91,7 +92,7 @@ interface ReaderContextType {
 
 const ReaderContext = createContext<ReaderContextType | undefined>(undefined);
 
-export function ReaderProvider({ children }: { children: React.ReactNode }) {
+export function ReaderProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(readerReducer, initialState);
 
   // Load settings and progress from localStorage on mount

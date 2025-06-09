@@ -1,4 +1,3 @@
-import React from "react";
 import { ReaderProvider } from "./contexts/ReaderContext";
 import { BookReader } from "./components/BookReader";
 

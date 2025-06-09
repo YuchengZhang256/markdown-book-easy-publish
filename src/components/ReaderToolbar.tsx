@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Book } from "@/types";
 import { useReader } from "@/contexts/ReaderContext";
 import { cn } from "@/lib/utils";

@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
-import { Book, Chapter } from "@/types";
+import { Book } from "@/types";
 import { useReader } from "@/contexts/ReaderContext";
 import { BookLoader } from "@/lib/bookLoader";
 import { debounce, cn } from "@/lib/utils";
