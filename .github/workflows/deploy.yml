@@ -31,8 +31,28 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Ensure contents directory exists
+        run: |
+          if [ ! -d "contents" ]; then
+            mkdir -p contents
+            echo '{"title": "My Book", "author": "Author Name"}' > contents/config.json
+            echo '[]' > contents/index.json
+          fi
+
       - name: Build
         run: npm run build
+
+      - name: Verify build output
+        run: |
+          echo "Build output contents:"
+          ls -la dist/
+          if [ -d "dist/contents" ]; then
+            echo "Contents directory exists in build:"
+            ls -la dist/contents/
+          else
+            echo "ERROR: contents directory missing from build!"
+            exit 1
+          fi
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
