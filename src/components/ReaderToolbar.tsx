@@ -37,7 +37,7 @@ export function ReaderToolbar({ book, onToggleSidebar }: ReaderToolbarProps) {
         <div className="flex items-center space-x-4">
           <button
             onClick={onToggleSidebar}
-            className="lg:hidden p-2 hover:bg-accent rounded-md transition-colors"
+            className="p-2 hover:bg-accent rounded-md transition-colors"
             aria-label="Toggle sidebar"
           >
             <svg

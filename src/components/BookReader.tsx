@@ -6,7 +6,7 @@ import rehypeRaw from "rehype-raw";
 import { Book, Chapter } from "@/types";
 import { useReader } from "@/contexts/ReaderContext";
 import { BookLoader } from "@/lib/bookLoader";
-import { debounce } from "@/lib/utils";
+import { debounce, cn } from "@/lib/utils";
 import { Sidebar } from "./Sidebar";
 import { ReaderToolbar } from "./ReaderToolbar";
 import { ChapterNavigation } from "./ChapterNavigation";
@@ -25,9 +25,15 @@ export function BookReader({ className }: BookReaderProps) {
     getProgress,
   } = useReader();
   const [book, setBook] = useState<Book | null>(null);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const contentRef = useRef<HTMLDivElement>(null);
   const [currentChapterIndex, setCurrentChapterIndex] = useState(0);
+
+  useEffect(() => {
+    if (window.innerWidth < 1024) {
+      setSidebarOpen(false);
+    }
+  }, []);
 
   // Load book on component mount
   useEffect(() => {
@@ -191,7 +197,12 @@ export function BookReader({ className }: BookReaderProps) {
       />
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div
+        className={cn(
+          "flex-1 flex flex-col overflow-hidden transition-all duration-300 ease-in-out",
+          { "lg:ml-80": sidebarOpen }
+        )}
+      >
         {/* Toolbar */}
         <ReaderToolbar
           book={book}
