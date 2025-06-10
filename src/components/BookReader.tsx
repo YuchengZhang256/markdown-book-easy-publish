@@ -29,11 +29,93 @@ export function BookReader({ className }: BookReaderProps) {
   const contentRef = useRef<HTMLDivElement>(null);
   const [currentChapterIndex, setCurrentChapterIndex] = useState(0);
 
+  // Immersive reading state
+  const [showToolbar, setShowToolbar] = useState(false);
+  const [showNavigation, setShowNavigation] = useState(false);
+  const [isAtBottom, setIsAtBottom] = useState(false); // Track if user is at page bottom
+  const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   useEffect(() => {
     if (window.innerWidth < 1024) {
       setSidebarOpen(false);
     }
   }, []);
+
+  // Auto-hide functionality
+  const scheduleHide = useCallback(() => {
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+    }
+    hideTimeoutRef.current = setTimeout(() => {
+      setShowToolbar(false);
+      // Only hide navigation if not at bottom
+      if (!isAtBottom) {
+        setShowNavigation(false);
+      }
+    }, 100); // Hide after 0.1 seconds of inactivity
+  }, [isAtBottom]);
+
+  const cancelHide = useCallback(() => {
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+      hideTimeoutRef.current = null;
+    }
+  }, []);
+
+  // Mouse move handler for detecting proximity to edges
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      // If at bottom, mouse logic doesn't apply to navigation
+      if (isAtBottom) {
+        const EDGE_THRESHOLD = 80; // pixels from edge
+        const { clientY } = e;
+        const nearTop = clientY <= EDGE_THRESHOLD;
+
+        if (nearTop) {
+          setShowToolbar(true);
+          cancelHide();
+        } else {
+          if (showToolbar) {
+            scheduleHide();
+          }
+        }
+        return;
+      }
+
+      // Normal mouse logic when not at bottom
+      const EDGE_THRESHOLD = 80; // pixels from edge
+      const { clientY } = e;
+      const windowHeight = window.innerHeight;
+
+      const nearTop = clientY <= EDGE_THRESHOLD;
+      const nearBottom = clientY >= windowHeight - EDGE_THRESHOLD;
+
+      if (nearTop) {
+        setShowToolbar(true);
+        cancelHide();
+      } else if (nearBottom) {
+        setShowNavigation(true);
+        cancelHide();
+      } else {
+        // If not near edges and UI is visible, schedule hide
+        if (showToolbar || showNavigation) {
+          scheduleHide();
+        }
+      }
+    },
+    [isAtBottom, showToolbar, showNavigation, scheduleHide, cancelHide]
+  );
+
+  // Setup mouse move listener
+  useEffect(() => {
+    document.addEventListener("mousemove", handleMouseMove);
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+      }
+    };
+  }, [handleMouseMove]);
 
   // Load book on component mount
   useEffect(() => {
@@ -74,7 +156,7 @@ export function BookReader({ className }: BookReaderProps) {
     }
   }, [state.currentChapterId, getProgress]);
 
-  // Track reading progress
+  // Track reading progress and scroll position
   const trackProgress = useCallback(
     debounce(() => {
       if (state.currentChapterId && contentRef.current) {
@@ -89,9 +171,30 @@ export function BookReader({ className }: BookReaderProps) {
     [state.currentChapterId] // Remove updateProgress from dependencies since it's stable
   );
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     trackProgress();
-  };
+
+    // Check if at bottom - this logic has priority over mouse position
+    if (contentRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = contentRef.current;
+      const BOTTOM_THRESHOLD = 100; // pixels from bottom
+      const isCurrentlyAtBottom =
+        scrollTop + clientHeight >= scrollHeight - BOTTOM_THRESHOLD;
+
+      if (isCurrentlyAtBottom !== isAtBottom) {
+        setIsAtBottom(isCurrentlyAtBottom);
+
+        if (isCurrentlyAtBottom) {
+          // At bottom: always show navigation, cancel any hide timer
+          setShowNavigation(true);
+          cancelHide();
+        } else {
+          // Left bottom: clear the bottom state, but don't immediately hide
+          // Let mouse logic take over
+        }
+      }
+    }
+  }, [trackProgress, cancelHide, isAtBottom]);
 
   const currentChapter = book?.chapters.find(
     (ch) => ch.id === state.currentChapterId
@@ -106,6 +209,9 @@ export function BookReader({ className }: BookReaderProps) {
       if (contentRef.current) {
         contentRef.current.scrollTop = 0;
       }
+      // Show toolbar briefly when navigating
+      setShowToolbar(true);
+      scheduleHide();
     }
   };
 
@@ -121,6 +227,19 @@ export function BookReader({ className }: BookReaderProps) {
       const prevIndex = currentChapterIndex - 1;
       navigateToChapter(book.chapters[prevIndex].id);
     }
+  };
+
+  // Handle toolbar and navigation interactions
+  const handleToolbarInteraction = () => {
+    setShowToolbar(true);
+    cancelHide();
+    scheduleHide();
+  };
+
+  const handleNavigationInteraction = () => {
+    setShowNavigation(true);
+    cancelHide();
+    scheduleHide();
   };
 
   if (state.isLoading) {
@@ -207,17 +326,27 @@ export function BookReader({ className }: BookReaderProps) {
       {/* Main Content */}
       <div
         className={cn(
-          "flex-1 flex flex-col overflow-hidden transition-all duration-300 ease-in-out",
+          "flex-1 flex flex-col overflow-hidden transition-all duration-300 ease-in-out relative",
           { "lg:ml-80": sidebarOpen }
         )}
       >
-        {/* Toolbar */}
-        <ReaderToolbar
-          book={book}
-          onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
-        />
+        {/* Toolbar - Fixed position with conditional visibility */}
+        <div
+          className={cn(
+            "fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ease-in-out",
+            sidebarOpen ? "lg:left-80" : "left-0",
+            showToolbar ? "translate-y-0" : "-translate-y-full"
+          )}
+          onMouseEnter={handleToolbarInteraction}
+          onMouseLeave={() => scheduleHide()}
+        >
+          <ReaderToolbar
+            book={book}
+            onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+          />
+        </div>
 
-        {/* Reading Area */}
+        {/* Reading Area - Full height without toolbar */}
         <div className="flex-1 overflow-hidden">
           <div
             ref={contentRef}
@@ -230,6 +359,8 @@ export function BookReader({ className }: BookReaderProps) {
                 maxWidth: state.settings.maxWidth,
                 lineHeight: state.settings.lineHeight,
                 fontSize: getFontSize(state.settings.fontSize),
+                paddingTop: "2rem", // Add top padding for better reading experience
+                paddingBottom: "4rem", // Add bottom padding
               }}
             >
               <ReactMarkdown
@@ -243,15 +374,25 @@ export function BookReader({ className }: BookReaderProps) {
           </div>
         </div>
 
-        {/* Chapter Navigation */}
-        <ChapterNavigation
-          currentChapterIndex={currentChapterIndex}
-          totalChapters={book.chapters.length}
-          onPrevious={previousChapter}
-          onNext={nextChapter}
-          hasNext={currentChapterIndex < book.chapters.length - 1}
-          hasPrevious={currentChapterIndex > 0}
-        />
+        {/* Chapter Navigation - Fixed position with conditional visibility */}
+        <div
+          className={cn(
+            "fixed bottom-0 left-0 right-0 z-50 transition-transform duration-300 ease-in-out",
+            sidebarOpen ? "lg:left-80" : "left-0",
+            showNavigation ? "translate-y-0" : "translate-y-full"
+          )}
+          onMouseEnter={handleNavigationInteraction}
+          onMouseLeave={() => scheduleHide()}
+        >
+          <ChapterNavigation
+            currentChapterIndex={currentChapterIndex}
+            totalChapters={book.chapters.length}
+            onPrevious={previousChapter}
+            onNext={nextChapter}
+            hasNext={currentChapterIndex < book.chapters.length - 1}
+            hasPrevious={currentChapterIndex > 0}
+          />
+        </div>
       </div>
     </div>
   );
