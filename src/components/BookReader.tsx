@@ -34,6 +34,7 @@ export function BookReader({ className }: BookReaderProps) {
   const [showNavigation, setShowNavigation] = useState(false);
   const [isAtBottom, setIsAtBottom] = useState(false); // Track if user is at page bottom
   const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const currentMouseY = useRef<number>(0); // Track current mouse position
 
   useEffect(() => {
     if (window.innerWidth < 1024) {
@@ -65,12 +66,15 @@ export function BookReader({ className }: BookReaderProps) {
   // Mouse move handler for detecting proximity to edges
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
-      // If at bottom, mouse logic doesn't apply to navigation
-      if (isAtBottom) {
-        const EDGE_THRESHOLD = 80; // pixels from edge
-        const { clientY } = e;
-        const nearTop = clientY <= EDGE_THRESHOLD;
+      const EDGE_THRESHOLD = 80; // pixels from edge
+      const { clientY } = e;
+      currentMouseY.current = clientY; // Track current mouse position
+      const windowHeight = window.innerHeight;
+      const nearTop = clientY <= EDGE_THRESHOLD;
+      const nearBottom = clientY >= windowHeight - EDGE_THRESHOLD;
 
+      // If at bottom, only handle top edge for toolbar
+      if (isAtBottom) {
         if (nearTop) {
           setShowToolbar(true);
           cancelHide();
@@ -79,17 +83,11 @@ export function BookReader({ className }: BookReaderProps) {
             scheduleHide();
           }
         }
+        // Navigation is handled by scroll logic when at bottom
         return;
       }
 
       // Normal mouse logic when not at bottom
-      const EDGE_THRESHOLD = 80; // pixels from edge
-      const { clientY } = e;
-      const windowHeight = window.innerHeight;
-
-      const nearTop = clientY <= EDGE_THRESHOLD;
-      const nearBottom = clientY >= windowHeight - EDGE_THRESHOLD;
-
       if (nearTop) {
         setShowToolbar(true);
         cancelHide();
@@ -97,7 +95,7 @@ export function BookReader({ className }: BookReaderProps) {
         setShowNavigation(true);
         cancelHide();
       } else {
-        // If not near edges and UI is visible, schedule hide
+        // Not near any edge, schedule hide for both if they're visible
         if (showToolbar || showNavigation) {
           scheduleHide();
         }
@@ -116,6 +114,24 @@ export function BookReader({ className }: BookReaderProps) {
       }
     };
   }, [handleMouseMove]);
+
+  // Check current mouse position when isAtBottom changes
+  useEffect(() => {
+    if (!isAtBottom && currentMouseY.current > 0) {
+      // When leaving bottom state, check if mouse is in bottom area
+      const EDGE_THRESHOLD = 80;
+      const windowHeight = window.innerHeight;
+      const nearBottom = currentMouseY.current >= windowHeight - EDGE_THRESHOLD;
+
+      if (!nearBottom && showNavigation) {
+        // Mouse is not in bottom area, start hiding navigation
+        scheduleHide();
+      } else if (nearBottom) {
+        // Mouse is in bottom area, keep navigation visible
+        cancelHide();
+      }
+    }
+  }, [isAtBottom, showNavigation, scheduleHide, cancelHide]);
 
   // Load book on component mount
   useEffect(() => {
@@ -189,12 +205,13 @@ export function BookReader({ className }: BookReaderProps) {
           setShowNavigation(true);
           cancelHide();
         } else {
-          // Left bottom: clear the bottom state, but don't immediately hide
-          // Let mouse logic take over
+          // Left bottom: clear the bottom state and actively check if should hide
+          // Start hide timer immediately, let mouse logic cancel it if needed
+          scheduleHide();
         }
       }
     }
-  }, [trackProgress, cancelHide, isAtBottom]);
+  }, [trackProgress, cancelHide, isAtBottom, scheduleHide]);
 
   const currentChapter = book?.chapters.find(
     (ch) => ch.id === state.currentChapterId
