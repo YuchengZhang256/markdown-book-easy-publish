@@ -173,17 +173,25 @@ export function BookReader({ className }: BookReaderProps) {
     );
   }
 
-  const fontSizeClass = {
-    small: "text-sm",
-    medium: "text-base",
-    large: "text-lg",
-  }[state.settings.fontSize];
-
   const fontFamilyClass = {
     serif: "font-serif",
     "sans-serif": "font-sans",
     mono: "font-mono",
   }[state.settings.fontFamily];
+
+  // Calculate font size in pixels for more control
+  const getFontSize = (size: string) => {
+    switch (size) {
+      case "small":
+        return "14px";
+      case "medium":
+        return "16px";
+      case "large":
+        return "20px";
+      default:
+        return "16px";
+    }
+  };
 
   return (
     <div className={`flex h-screen bg-background ${className}`}>
@@ -217,10 +225,11 @@ export function BookReader({ className }: BookReaderProps) {
             onScroll={handleScroll}
           >
             <div
-              className={`mx-auto prose prose-slate dark:prose-invert ${fontSizeClass} ${fontFamilyClass}`}
+              className={`mx-auto prose prose-slate dark:prose-invert ${fontFamilyClass}`}
               style={{
                 maxWidth: state.settings.maxWidth,
                 lineHeight: state.settings.lineHeight,
+                fontSize: getFontSize(state.settings.fontSize),
               }}
             >
               <ReactMarkdown

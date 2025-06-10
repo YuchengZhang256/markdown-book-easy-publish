@@ -86,8 +86,7 @@
 
 /* Reading experience improvements */
 .reading-content {
-  line-height: 1.8;
-  font-size: 1.1rem;
+  /* Remove hardcoded font-size and line-height to allow dynamic settings */
 }
 
 .reading-content p {
