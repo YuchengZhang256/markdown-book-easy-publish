@@ -383,7 +383,6 @@ export function BookReader({ className }: BookReaderProps) {
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 rehypePlugins={[rehypeHighlight, rehypeRaw]}
-                className="reading-content"
               >
                 {currentChapter.content}
               </ReactMarkdown>

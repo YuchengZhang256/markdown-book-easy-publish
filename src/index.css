@@ -61,8 +61,13 @@
 /* Custom styles for markdown content */
 .prose {
   @apply max-w-none;
+  /* Override typography plugin defaults for better readability */
+  --tw-prose-pre-code: hsl(var(--foreground));
+  --tw-prose-pre-bg: hsl(var(--muted));
+  --tw-prose-code: hsl(var(--foreground));
 }
 
+/* Ensure prose headings have scroll margin for navigation */
 .prose h1,
 .prose h2,
 .prose h3,
@@ -72,32 +77,50 @@
   @apply scroll-mt-20;
 }
 
+/* Code block styling with improved contrast */
 .prose pre {
-  @apply rounded-lg border bg-muted;
+  @apply rounded-lg border;
+  background-color: hsl(var(--muted));
+  color: hsl(var(--foreground));
+  padding: 1rem;
 }
 
 .prose code {
-  @apply relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm;
+  @apply relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm;
+  background-color: hsl(var(--muted));
+  color: hsl(var(--foreground));
 }
 
 .prose pre code {
   @apply bg-transparent p-0;
+  color: hsl(var(--foreground));
 }
 
-/* Reading experience improvements */
-.reading-content {
-  /* Remove hardcoded font-size and line-height to allow dynamic settings */
+/* Enhance prose styles for better reading experience */
+.prose ul,
+.prose ol {
+  @apply my-6;
 }
 
-.reading-content p {
-  margin-bottom: 1.5rem;
+.prose li {
+  @apply my-2;
 }
 
-.reading-content h1,
-.reading-content h2,
-.reading-content h3 {
-  margin-top: 2rem;
-  margin-bottom: 1rem;
+.prose blockquote {
+  @apply border-l-4 border-primary/20 bg-muted/50 rounded-r-lg;
+}
+
+.prose table {
+  @apply border-collapse border border-border rounded-lg overflow-hidden;
+}
+
+.prose th,
+.prose td {
+  @apply border border-border px-4 py-2;
+}
+
+.prose th {
+  @apply bg-muted font-semibold;
 }
 
 /* Smooth scrolling */
