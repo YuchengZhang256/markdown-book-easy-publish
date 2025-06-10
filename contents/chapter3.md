@@ -1,121 +1,164 @@
-# Chapter 3: Customization and Publishing
+那不是入口。
 
-Learn how to customize your book and publish it to the world.
+那是巨兽的食道。
 
-## Book Configuration
+当凯尔被奇拉粗暴地拽进“坚韧之心”时，巨大的闸门在他身后合拢，发出一声如同世界末日般的巨响。他坠入了一个纯粹由钢铁、蒸汽和仇恨构成的世界。
 
-The `config.json` file allows you to customize your book's metadata:
+这里是炉渣镇的噩梦升级版。一个更巨大、更狂暴、更充满生命力的工业地狱。
 
-```json
-{
-  "title": "Your Book Title",
-  "author": "Your Name",
-  "description": "A brief description of your book",
-  "theme": "auto",
-  "cover": "path/to/cover.jpg"
-}
-```
+“把他带到‘清算场’去！”一个路过的、肩膀上扛着巨大扳手的男人冲奇拉喊道，他看向凯尔的眼神，像是看一块即将被分割的肉。
 
-### Configuration Options
+奇拉没有理他，只是拽着凯尔，沿着一条宽阔的主干道向前走。
 
-- **title**: The main title of your book
-- **author**: Your name or pen name
-- **description**: A short summary that appears in the sidebar
-- **theme**: Default theme (`light`, `dark`, or `auto`)
-- **cover**: Optional cover image (not yet implemented)
+这是一场游街。一场为他一个人准备的、极尽屈辱的游街。
 
-## Chapter Organization
+所有人的目光，都像探照灯一样聚焦在凯尔身上。那目光中没有好奇，只有一种代代相传、已经融入血液的、纯粹的仇恨。
 
-Use the `index.json` file to control the order of your chapters:
+“天上来的杂种！”
+“杀了他！为我父亲报仇！”
 
-```json
-{
-  "files": ["introduction.md", "chapter1.md", "chapter2.md", "conclusion.md"]
-}
-```
+咒骂声、夹杂着吐在地上的唾沫声，从四面八方传来。凯尔没有躲。他像一尊会移动的、由仇恨构成的雕像。他不是在受辱，他是在侦察。
 
-### Filename Conventions
+突然，他锁定了一个目标。
 
-If you don't create an `index.json` file, the system will automatically look for files with these patterns:
+一个站在人群最前方的、满脸横肉的女兵，她刚刚朝他吐了一口最浓的唾沫，嘴里还在骂着什么。她的腰间，挂着一把没有入鞘的、沾满油污的短匕。
 
-- `chapter1.md`, `chapter2.md`, etc.
-- `ch1.md`, `ch2.md`, etc.
-- `01.md`, `02.md`, etc.
-- `introduction.md`, `preface.md`
-- `epilogue.md`, `conclusion.md`
+机会。
 
-## Publishing to GitHub Pages
+就在奇拉被一个迎面走来的传令兵短暂分散注意力的瞬间，锁链有了一丝松懈。
 
-### Initial Setup
+凯尔的身体，比他的大脑先一步做出了反应。
 
-1. **Fork this repository** to your GitHub account
-2. **Enable GitHub Pages** in your repository settings:
-   - Go to Settings → Pages
-   - Select "GitHub Actions" as the source
-3. **Replace the content** in the `contents` folder with your own
+他没有去抢匕首，那太慢了。他猛地矮身，像一头被压紧的弹簧，整个人贴地滑出，用肩膀狠狠撞向了那名女兵的膝盖！
 
-### Automatic Deployment
+“咔！”
 
-Every time you push changes to the `main` branch, GitHub Actions will:
+一声清脆的骨裂声。那女兵发出一声不似人声的惨叫，整个人向后倒去。
 
-1. Build your book automatically
-2. Deploy it to GitHub Pages
-3. Make it available at `https://yourusername.github.io/your-repo-name`
+凯尔的攻击没有停止。在撞倒她的瞬间，他已经伸出手，抓住了那把下落的匕首！
 
-### Custom Domain (Optional)
+他成功了。
 
-You can use a custom domain by:
+但他也到此为止了。
 
-1. Adding a `CNAME` file to the repository root
-2. Configuring DNS settings with your domain provider
-3. Updating the repository settings
+在他握住匕首的下一秒，一只军靴已经重重地踹在他的侧肋上，将他整个人踢飞出去。奇拉的反应快得不似人类。
 
-## Reader Features
+凯尔在地上滚了两圈，断掉的肋骨处传来剧痛，但他死死地握着那把匕首。
 
-Your published book includes many advanced features:
+周围的喧嚣和咒骂，在那一瞬间消失了。所有人都震惊地看着这个衣衫褴褛、却在瞬间废掉一个老兵的俘虏。他们看到的不再是一个可怜虫，而是一头被铁链锁住、但随时准备咬断你喉咙的狼。
 
-### Reading Experience
+奇拉缓步走到他面前，居高临下地看着他。
 
-- **Responsive design** that works on phones, tablets, and desktops
-- **Customizable font size** and family
-- **Adjustable line height** for better readability
-- **Multiple theme options** including auto dark mode
+“砰！”
 
-### Navigation
+她一脚踩在凯尔握着匕首的手上。
 
-- **Sidebar table of contents** with chapter list
-- **Previous/Next chapter** navigation
-- **Progress tracking** that remembers where you left off
-- **Direct chapter jumping** from the sidebar
+“啊——！”
 
-### Accessibility
+凯尔发出一声压抑的痛吼。他能清晰地听到自己指骨被碾碎的声音。
 
-- **Keyboard navigation** support
-- **Screen reader friendly** markup
-- **High contrast** options in dark mode
-- **Scalable text** that respects user preferences
+“还想反抗？”奇拉的声音从他头顶传来，带着一丝冰冷的“赞许”，“不错。但你刚才的举动，让你失去了一只手，还为你自己赢得了去‘清算场’的资格。”
 
-## Advanced Customization
+她挪开脚，凯尔的手已经血肉模糊。她揪住他的头发，拖着他，像拖着一条死狗，继续往前走。所过之处，人群爆发出更加响亮的、残忍的哄笑声。
 
-### Styling
+但这一次，笑声里，多了一丝敬畏。
 
-The book uses Tailwind CSS for styling. You can customize the appearance by:
+---
 
-1. Modifying the CSS variables in `src/index.css`
-2. Updating the component styles
-3. Adding custom CSS for specific elements
+“清算场”是一个类似机库的巨大圆形广场。中央吊着几具残破的“龙蜥武装”残骸。
 
-### Adding Features
+一群士兵围在那里，为首的，是一个身材异常高大的男人。他没有穿上衣，古铜色的皮肤上布满了纵横交错的伤疤。
 
-The codebase is modular and extensible:
+他就是雷牙。
 
-- Add new components in `src/components/`
-- Extend functionality in `src/lib/`
-- Modify the book loader for different content sources
-- Add new themes or reading preferences
+看到奇拉拖着凯尔进来，雷牙转过身，那双浑浊的眼睛里，闪烁着野兽般的光芒。他扫了一眼凯尔血肉模糊的手，嘴角咧开一个残忍的弧度。
 
-## Conclusion
+他没有立刻发作，而是缓步走到凯尔面前，像一头审视猎物的雄狮。
 
-You now have everything you need to create and publish your own book! This tool provides a solid foundation for sharing your writing with the world.
+“告诉我，天上的孩子，”雷牙的声音沙哑得像是砂纸在摩擦金属，他用一种近乎审判的语气问道，“你们的《空域卫队守则》第三条第七款，写的是什么？”
 
-Happy writing! 📚✨
+凯尔一愣。
+
+“不记得了？”雷牙笑了，“我帮你记着呢：‘为保护天空之民的绝对安全，允许在威胁判明前，对一切来自云海的未知目标，进行预防性清除。‘对吗？”
+
+凯尔的心脏，猛地一沉。
+
+“我儿子，”雷牙的语气平静得可怕，但每个字都像一块巨石，砸在凯尔心上，“在一场侦察任务中，他的‘龙蜥’受损了，只能在云层中低速航行。他被你们的巡逻队发现了。他没有攻击，他打开了所有的公共频道，用你们的语言，重复着一句话——‘我们不是敌人，我们是同胞’。”
+
+雷牙看着凯尔，眼中满是嘲讽。
+
+“你知道吗？他从小就相信教科书上那些屁话，相信天上的影之民只是被蒙蔽的兄弟。他觉得，只要沟通，就能换来理解。他觉得，他面对的，是一群守护家园的英雄。”
+
+“而你们的‘英雄’，是怎么回应他的呢？”雷牙的声音陡然拔高，充满了无穷的恨意，“他们用一轮齐射，把他的‘龙蜥’，连同他的天真，一起打成了燃烧的碎片。连一块完整的骨头都没留下。”
+
+他从脖子上，拿出一个用弹壳串起来的、粗糙的风铃。
+
+“叮铃……叮铃……”
+
+“我只在残骸里，找到了这个。”
+
+雷牙将风铃收好，重新看向凯尔，眼神变得无比温柔，温柔得令人毛骨悚然。
+
+“所以，我决定，也送一份‘礼物’给你们的英雄。我闯入了你们的庆典，我看到她了，”雷牙的目光仿佛穿透了凯尔的身体，“穿着一件灰色的、洗得发白的裙子，像一朵开在垃圾堆里的小花。”
+
+凯尔的呼吸，彻底停滞了。
+
+“她看到我的时候，脸上是什么表情来着？”雷牙歪着头，故作思索状，眼中却闪烁着残忍的、复仇的快感，“哦，想起来了。不是害怕，也不是惊恐。是一种……**茫然**。好像在问，为什么是我。”
+
+“砰。”
+
+雷牙用嘴，模仿了一声枪响。
+
+“那道光束穿过她胸口的时候，真漂亮。像一朵瞬间绽放的、红色的花。”
+
+他凑到凯尔耳边，用只有他们两人能听到的、魔鬼般的低语说道：
+
+“现在，你告诉我，我们扯平了吗？”
+
+世界，在凯尔的耳中，彻底安静了。那股一直在他体内疯狂燃烧的、名为“仇恨”的红色烈焰，在极致的温度和压力下，坍缩成了一个无限小、无限重、吞噬一切光和热的……黑点。
+
+他缓缓地，缓缓地抬起了头。
+
+他的脸上，没有任何表情。
+
+他看着雷牙，那双黑色的瞳孔里，映不出任何东西。
+
+然后，他开口了。用一种嘶哑的、几乎听不见的声音。
+
+“不……”
+
+雷牙的表情凝固了。
+
+凯尔继续说，每个字都像从冰里捞出来的：
+
+“你儿子……他死的时候，至少还相信自己是被一群‘英雄’杀死的。”
+
+他顿了顿，露出了一个比哭还难看的、扭曲的笑容。
+
+“而我妹妹……她是被一个她以为是‘怪物’的人杀死的。”
+
+“怪物杀了人。这不奇怪。”
+
+他直视着雷牙那双因震惊而微微睁大的眼睛，吐出了淬毒的最后一句话：
+
+“但你呢？你亲手向你的儿子证明了，他信错了。你和那些所谓的‘英雄’，根本没什么区别。”
+
+“你，只是一个……杀死了自己儿子信仰的……可怜虫。”
+
+“你找死！！！”
+
+雷牙的理智瞬间被点燃，他发出一声野兽般的咆哮，巨大的拳头带着风声，狠狠地砸向凯尔的头！
+
+就在拳头即将击中的瞬间，一只手，稳稳地架住了雷牙的手臂。
+
+是奇拉。
+
+“议长要见他，活的。”她冷冷地说道。
+
+雷牙的胸膛剧烈地起伏着，他死死地盯着凯尔，那眼神恨不得将他生吞活剥。但他最终，还是缓缓地收回了拳头。
+
+他输了。在这场精神的处决中，他被反将了一军。
+
+---
+
+
