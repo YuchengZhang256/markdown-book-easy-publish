@@ -2,9 +2,17 @@
 
 Welcome to your new book! This is the first chapter of your story.
 
-## Introduction
+### Introduction
 
 This markdown book publisher allows you to easily create and publish beautiful books from markdown files. Simply replace this content with your own writing.
+
+> ## How to Use
+
+> 1.  Replace the content in the `contents` folder with your own markdown files
+> 2.  Update `config.json` with your book's information
+> 3.  Update `index.json` to set the chapter order
+> 4.  Commit and push to GitHub
+> 5.  Your book will be automatically published to GitHub Pages!
 
 ### Features
 
@@ -15,15 +23,7 @@ This markdown book publisher allows you to easily create and publish beautiful b
 - **Multiple font options** and reading preferences
 - **Dark mode support** for comfortable reading
 
-### How to Use
-
-1. Replace the content in the `contents` folder with your own markdown files
-2. Update `config.json` with your book's information
-3. Update `index.json` to set the chapter order
-4. Commit and push to GitHub
-5. Your book will be automatically published to GitHub Pages!
-
-## Your Story Begins Here
+### Your Story Begins Here
 
 This is where your amazing story begins. Replace this text with your own content and start writing your book!
 
