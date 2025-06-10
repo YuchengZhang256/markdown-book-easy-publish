@@ -53,7 +53,7 @@ export function BookReader({ className }: BookReaderProps) {
       if (!isAtBottom) {
         setShowNavigation(false);
       }
-    }, 100); // Hide after 0.1 seconds of inactivity
+    }, 0); // Hide after 0 seconds of inactivity
   }, [isAtBottom]);
 
   const cancelHide = useCallback(() => {
